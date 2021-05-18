@@ -1,0 +1,42 @@
+import React, {useState, useEffect} from "react"
+import Base from "../core/Base"
+import {isAuthenticated} from "../auth/helper/index"
+import {getCategory} from "../admin/helper/adminapicall"
+
+const UpdateCategory = ({match}) => {
+
+    const [name, setName] = useState("")
+    const [error, setError] = useState(false)
+    const [success, setSuccess] = useState(false)
+
+    const {user, token} = isAuthenticated();
+
+
+    const preload = (categoryId) => {
+        getCategory(categoryId).then( data => {
+            console.log(data)
+            if(data.error) {
+                setError(true)
+            } else {
+                setName({name: data.name})   
+            }
+        })  
+    }
+
+    useEffect (() => {
+        preload(match.params.categoryId)
+    }, [])
+
+
+    
+
+
+
+    return (
+        <Base title="Welcome Admin">
+            
+        </Base>
+    )
+}
+
+export default UpdateCategory
